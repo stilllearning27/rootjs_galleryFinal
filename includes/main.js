@@ -28,6 +28,27 @@ function initiateApp(){
 }
 function makeGallery(imageArray){
 	//use loops and jquery dom creation to make the html structure inside the #gallery section
+	for(var i = 0; i < pictures.length; i++){
+		var start = pictures[i].indexOf("/");
+		var end = pictures[i].lastIndexOf(".")
+		var figure = $("<figure>",{
+			class: "imageGallery col-xs-12 col-sm-6 col-md-4",
+			style: "background-image:url("+pictures[i]+")",
+			on: {
+				click: displayImage
+			}
+		})
+
+		var figcaption = $("<figcaption>",{
+            text: pictures[i].slice(start + 1, end)
+		})
+		$(figure).appendTo("#gallery");
+		$(figcaption).appendTo(figure);
+
+    }
+
+
+
 
 	//create a loop to go through the pictures
 		//create the elements needed for each picture, store the elements in variable
@@ -44,8 +65,21 @@ function addModalCloseHandler(){
 }
 
 function displayImage(){
+	//in an event you have parameters, this, event
 	//find the url of the image by grabbing the background-image source, store it in a variable
-	//grab the direct url of the image by getting rid of the other pieces you don't need
+	var fullImageUrl = $(this).css("background-image");
+    var start = fullImageUrl.lastIndexOf("images");
+    var end = fullImageUrl.lastIndexOf("jp")+3;
+    var imageUrl = fullImageUrl.slice(start, end);
+    var removePeriod = imageUrl.lastIndexOf(".");
+    var removeImages = imageUrl.indexOf("/");
+    var title = imageUrl.slice(removeImages + 1, removePeriod);
+    $(".modal-title").text(title);
+	$(".modal-body img").attr("src", imageUrl);
+	$("#galleryModal").modal();
+
+
+    //grab the direct url of the image by getting rid of the other pieces you don't need
 
 	//grab the name from the file url, ie the part without the path.  so "images/pexels-photo-132037.jpeg" would become
 		// pexels-photo-132037
@@ -56,6 +90,7 @@ function displayImage(){
 
 	//show the modal with JS.  Check for more info here: 
 	//https://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp
+
 }
 
 
