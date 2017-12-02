@@ -23,8 +23,10 @@ function initiateApp(){
 	/*advanced: add jquery sortable call here to make the gallery able to be sorted
 		//on change, rebuild the images array into the new order
 	*/
+
 	makeGallery(pictures);
 	addModalCloseHandler();
+    $("#gallery").sortable();
 }
 function makeGallery(imageArray){
 	//use loops and jquery dom creation to make the html structure inside the #gallery section
